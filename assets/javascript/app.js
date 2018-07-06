@@ -3,6 +3,7 @@
     // Inital array that become buttons immediately after document loaded
     var emotions = ["excited", "happy", "moody", "joyful", "facetious", "irate", "exhausted", "sad", "lonely", "thoughtful", "overzealous", "angry", "fearful", "surprise", "anxious"];
 
+    
     // Function that creats initial array buttons
     function renderButtons() {
         $("#button-view").empty();
@@ -15,6 +16,8 @@
             $("#button-view").append(gifButton);
         }
     }
+    renderButtons();
+
 
     // On click event for submit button that creates additional button and adds new search criteria to array
     function addButtons() {
@@ -23,20 +26,20 @@
             var emotion = $("#search-input").val().trim();
             if (emotions.indexOf(emotion) == -1) {
                 emotions.push(emotion);
+                renderButtons();
             } else if (emotion == "") {
                 return false;
             } else {
                 alert("This emotion has already been added!");
                 return false;
             }
-            renderButtons();
         })
     }   
-    
+    addButtons();
+
     // function that display's 10 gifs for initial buttons created
-    function displayGifs(event) {
-        // emptying div where displayed gif will appear, pulling emotion being called from array
-        $(".col-md-8").empty();
+    function displayGifs() {
+        
         var emotionGif = $(this).attr("data-name");
 
         // calling giphy API
@@ -47,9 +50,14 @@
             method: 'GET'
         })
         .done(function(response) {
-            $("#gifs-go-here").empty();
+            
+            // emptying div where displayed gif will appear, pulling emotion being called from array
+            $("#gif-view").empty();
+
+            // Storing API response in variable
             var results = response.data;
-        // for statement running through response data 9 times to display 9 gifs below
+
+            // for statement running through response data 9 times to display 9 gifs below
             for (var i = 0; i < results.length; i++) {    
                 
                 // checkpoint and log to make sure ajax is returning response info- not needed for deploy
@@ -70,16 +78,15 @@
                 var gifText = $("<p>").addClass("rating").text("Rating: " + results[i].rating);
                 gifDiv.append(gifImage);
                 gifDiv.append(gifText);
-                $(".col-md-8").append(gifDiv);
+                $("#gif-view").append(gifDiv);
             }   
         });
     }   
     
+
+    // On click event handler that displays Gifs when prompted by button click
     $(document).on("click", ":button", displayGifs);
 
-    renderButtons();
-
-    addButtons();
 
     // on click event that plays/pauses individual gifs
     $(document).on("click", ".d-block", function(){
