@@ -1,5 +1,3 @@
-
-    
     // Inital array that become buttons immediately after document loaded
     var emotions = ["excited", "happy", "moody", "joyful", "facetious", "irate", "exhausted", "sad", "lonely", "thoughtful", "overzealous", "angry", "fearful", "surprise", "anxious"];
 
@@ -43,7 +41,7 @@
         var emotionGif = $(this).attr("data-name");
 
         // calling giphy API
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + emotionGif + "&api_key=QLqUXM8T40xKH2hVB3S8QwCIypOjqn5H&limit=9";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + emotionGif + "&api_key=QLqUXM8T40xKH2hVB3S8QwCIypOjqn5H&limit=9";
         
         $.ajax({
             url: queryURL,
